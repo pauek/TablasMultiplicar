@@ -98,10 +98,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var multTextStyle = Theme.of(context).textTheme.display3;
+    const double digitsSize = 52;
+    const double symbolsSize = digitsSize / 1.33;
     return Scaffold(
-      body: SafeArea(
-        child: Center(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/fondo.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -122,16 +129,56 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ]),
               Expanded(
-                child: Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        '${_multiplication.a} × ${_multiplication.b} = ',
-                        style: multTextStyle,
+                      Image.asset(
+                        'assets/${_multiplication.a}.png',
+                        width: digitsSize,
                       ),
-                      Text(_answer, style: multTextStyle),
-                      Text('_', style: multTextStyle),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Image.asset(
+                          'assets/x.png',
+                          width: symbolsSize,
+                        ),
+                      ),
+                      Image.asset(
+                        'assets/${_multiplication.b}.png',
+                        width: digitsSize,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: Image.asset(
+                          'assets/eq.png',
+                          width: symbolsSize,
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 120,
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(30, 255, 255, 255),
+                            border: Border.all(),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment:
+                                MainAxisAlignment.center,
+                            children: <Widget>[
+                              for (int i = 0; i < _answer.length; i++)
+                                Image.asset(
+                                  'assets/${_answer[i]}.png',
+                                  width: digitsSize,
+                                )
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -248,11 +295,19 @@ class NumberButtons extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: OutlineButton(
+        borderSide: BorderSide(
+          color: Color.fromARGB(100, 255, 255, 255),
+          width: 2,
+        ),
+        shape: StadiumBorder(),
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Text(
             '$n',
-            style: Theme.of(context).textTheme.display1,
+            style: TextStyle(
+              fontSize: 40,
+              color: Color.fromARGB(200, 255, 255, 255),
+            ),
           ),
         ),
         onPressed: () {
