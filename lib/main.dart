@@ -122,17 +122,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ]),
             Expanded(
-                child: Center(
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                  Text(
-                    '${_multiplication.a} × ${_multiplication.b} = ',
-                    style: multTextStyle,
-                  ),
-                  Text(_answer, style: multTextStyle),
-                  Text('_', style: multTextStyle),
-                ]))),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${_multiplication.a} × ${_multiplication.b} = ',
+                      style: multTextStyle,
+                    ),
+                    Text(_answer, style: multTextStyle),
+                    Text('_', style: multTextStyle),
+                  ],
+                ),
+              ),
+            ),
             NumberButtons(
               onTapNumber: _addNumber,
               onClear: _clearNumber,
