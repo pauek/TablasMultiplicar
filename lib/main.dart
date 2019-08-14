@@ -100,50 +100,49 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     var multTextStyle = Theme.of(context).textTheme.display3;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Score(
-                    score: _bad,
-                    color: Colors.red,
-                    icon: Icons.close,
-                    offset: Offset(0, 0),
-                  ),
-                  Score(
-                    score: _good,
-                    color: Colors.green,
-                    icon: Icons.check,
-                    offset: Offset(80, 10),
-                  ),
-                ]),
-            Expanded(
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${_multiplication.a} × ${_multiplication.b} = ',
-                      style: multTextStyle,
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Score(
+                      score: _bad,
+                      color: Colors.red,
+                      icon: Icons.close,
+                      offset: Offset(0, 0),
                     ),
-                    Text(_answer, style: multTextStyle),
-                    Text('_', style: multTextStyle),
-                  ],
+                    Score(
+                      score: _good,
+                      color: Colors.green,
+                      icon: Icons.check,
+                      offset: Offset(80, 10),
+                    ),
+                  ]),
+              Expanded(
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${_multiplication.a} × ${_multiplication.b} = ',
+                        style: multTextStyle,
+                      ),
+                      Text(_answer, style: multTextStyle),
+                      Text('_', style: multTextStyle),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            NumberButtons(
-              onTapNumber: _addNumber,
-              onClear: _clearNumber,
-              onCheck: _check,
-            ),
-          ],
+              NumberButtons(
+                onTapNumber: _addNumber,
+                onClear: _clearNumber,
+                onCheck: _check,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -188,9 +187,8 @@ class _ScoreState extends State<Score>
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
-    _animation = _controller.drive(
-      Matrix4Tween(begin: doublesize, end: normalsize)
-    );
+    _animation = _controller
+        .drive(Matrix4Tween(begin: doublesize, end: normalsize));
     _controller.forward();
     _controller.addListener(() {
       setState(() {
