@@ -114,11 +114,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     score: _bad,
                     color: Colors.red,
                     icon: Icons.close,
+                    offset: Offset(0, 0),
                   ),
                   Score(
                     score: _good,
                     color: Colors.green,
                     icon: Icons.check,
+                    offset: Offset(80, 10),
                   ),
                 ]),
             Expanded(
@@ -152,11 +154,13 @@ class Score extends StatefulWidget {
   final int score;
   final Color color;
   final IconData icon;
+  final Offset offset; // HACK TOTAL!
 
   Score({
     @required this.score,
     @required this.color,
     @required this.icon,
+    @required this.offset,
   });
 
   @override
@@ -165,14 +169,17 @@ class Score extends StatefulWidget {
 
 class _ScoreState extends State<Score>
     with SingleTickerProviderStateMixin {
+  int _score;
   AnimationController _controller;
   Animation _animation;
   Matrix4 _transform;
 
   @override
   void initState() {
+    _score = widget.score;
+
     final Matrix4 doublesize =
-        Matrix4.diagonal3(vmath.Vector3(1.5, 1.5, 1.5));
+        Matrix4.diagonal3(vmath.Vector3(1.8, 1.8, 1.8));
     final Matrix4 normalsize =
         Matrix4.diagonal3(vmath.Vector3(1, 1, 1));
 
@@ -182,7 +189,7 @@ class _ScoreState extends State<Score>
       duration: Duration(milliseconds: 300),
     );
     _animation = _controller.drive(
-      Matrix4Tween(begin: doublesize, end: normalsize),
+      Matrix4Tween(begin: doublesize, end: normalsize)
     );
     _controller.forward();
     _controller.addListener(() {
@@ -194,8 +201,19 @@ class _ScoreState extends State<Score>
   }
 
   @override
+  void didUpdateWidget(Score oldWidget) {
+    if (widget.score != _score) {
+      _controller.reset();
+      _controller.forward();
+      _score = widget.score;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Transform(
+      origin: widget.offset,
       transform: _transform,
       child: Container(
         margin: EdgeInsets.all(10),
@@ -262,22 +280,32 @@ class NumberButtons extends StatelessWidget {
           TableRow(children: _buttonRow(context, 1, 3)),
           TableRow(children: [
             FlatButton(
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                    child: Icon(Icons.delete,
-                        size: 40, color: Colors.grey)),
-                onPressed: () {
-                  this.onClear();
-                }),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                child: Icon(
+                  Icons.delete,
+                  size: 40,
+                  color: Colors.grey,
+                ),
+              ),
+              onPressed: () {
+                this.onClear();
+              },
+            ),
             _button(0, context),
             FlatButton(
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                    child: Icon(Icons.check,
-                        size: 40, color: Colors.green)),
-                onPressed: () {
-                  this.onCheck();
-                }),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                child: Icon(
+                  Icons.check,
+                  size: 40,
+                  color: Colors.green,
+                ),
+              ),
+              onPressed: () {
+                this.onCheck();
+              },
+            ),
           ])
         ],
       ),
