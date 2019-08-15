@@ -9,18 +9,36 @@ class ResultsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 220, 220, 220),
       body: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24.0,
+          vertical: 120,
+        ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Has fet una multiplicació cada ${session.itemsPerSecond} segons',
+                'Molt bé!',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 50,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
+              Text(
+                '${session.percentageCorrect}% correctes',
+                style: TextStyle(
+                  fontSize: 26,
+                ),
+              ),
+              Text(
+                '${session.secondsPerMultiplication} segons per multiplicació',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              Expanded(child: Container()),
               ColoredButton(
                 text: 'Una altra vegada',
                 color: Colors.green,

@@ -48,7 +48,9 @@ class SessionState extends State<StateContainer> {
   int get wrong => _session.wrong;
   int get total => _session.total;
 
-  double get itemsPerSecond => _session.perItem;
+  String get secondsPerMultiplication => _session.perItem.toStringAsFixed(2);
+
+  int get percentageCorrect => (100.0 * correct.toDouble()) ~/ total.toDouble();
 
   String get answer => _answer;
   Multiplication get multiplication => _multiplication;
