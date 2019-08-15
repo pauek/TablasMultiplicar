@@ -50,7 +50,12 @@ class SessionState extends State<StateContainer> {
 
   String get secondsPerMultiplication => _session.perItem.toStringAsFixed(2);
 
-  int get percentageCorrect => (100.0 * correct.toDouble()) ~/ total.toDouble();
+  int get percentageCorrect {
+    if (total == 0) {
+      return 0;
+    }
+    return 100 * (correct.toDouble() ~/ total.toDouble());
+  }
 
   String get answer => _answer;
   Multiplication get multiplication => _multiplication;
