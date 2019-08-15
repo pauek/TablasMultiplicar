@@ -29,7 +29,7 @@ class MenuButton extends StatelessWidget {
       text:
           '$mults ${mults > 1 ? 'Multiplicacions' : 'Multiplicació'}',
       onPressed: () {
-        SessionState session = SessionContainer.of(context);
+        SessionState session = StateContainer.of(context);
         session.reset(mults);
         Navigator.of(context).pushNamed('/practice');
       },

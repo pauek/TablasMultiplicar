@@ -5,7 +5,7 @@ import 'package:tablas_multiplicar/session_container.dart';
 class PracticePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SessionState session = SessionContainer.of(context);
+    SessionState session = StateContainer.of(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -59,7 +59,7 @@ class PracticePage extends StatelessWidget {
 class ProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final SessionState state = SessionContainer.of(context);
+    final SessionState state = StateContainer.of(context);
     final MediaQueryData data = MediaQuery.of(context);
     final double width = (data.size.width / state.target.toDouble()) *
         state.total.toDouble();
@@ -82,7 +82,7 @@ class ProgressBar extends StatelessWidget {
 class QuestionBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SessionState session = SessionContainer.of(context);
+    SessionState session = StateContainer.of(context);
 
     final MediaQueryData queryData = MediaQuery.of(context);
     final double digitsSize =

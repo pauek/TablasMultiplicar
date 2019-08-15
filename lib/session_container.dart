@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tablas_multiplicar/model.dart';
 
-class _InheritedSessionContainer extends InheritedWidget {
+class _InheritedStateContainer extends InheritedWidget {
   final SessionState session;
 
-  _InheritedSessionContainer({
+  _InheritedStateContainer({
     Key key,
     @required this.session,
     @required Widget child,
@@ -14,11 +14,11 @@ class _InheritedSessionContainer extends InheritedWidget {
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 }
 
-class SessionContainer extends StatefulWidget {
+class StateContainer extends StatefulWidget {
   final Widget child;
   final PracticeSession session;
 
-  SessionContainer({
+  StateContainer({
     @required this.child,
     @required this.session,
   });
@@ -28,12 +28,12 @@ class SessionContainer extends StatefulWidget {
 
   static SessionState of(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(
-            _InheritedSessionContainer) as _InheritedSessionContainer)
+            _InheritedStateContainer) as _InheritedStateContainer)
         .session;
   }
 }
 
-class SessionState extends State<SessionContainer> {
+class SessionState extends State<StateContainer> {
   PracticeSession _session;
   Multiplication _multiplication;
   String _answer;
@@ -89,7 +89,7 @@ class SessionState extends State<SessionContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return _InheritedSessionContainer(
+    return _InheritedStateContainer(
       session: this,
       child: widget.child,
     );

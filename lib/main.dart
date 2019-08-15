@@ -18,7 +18,7 @@ var routes = {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SessionContainer(
+    return StateContainer(
       session: PracticeSession(),
       child: MaterialApp(
         title: 'Multiplicacions',

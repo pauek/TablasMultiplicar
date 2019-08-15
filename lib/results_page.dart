@@ -5,7 +5,7 @@ import 'package:tablas_multiplicar/colored_button.dart';
 class ResultsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SessionState session = SessionContainer.of(context);
+    SessionState session = StateContainer.of(context);
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 220, 220, 220),
       body: Padding(
