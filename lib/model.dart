@@ -66,5 +66,5 @@ class PracticeSession extends ChangeNotifier {
 
   double get duration => (_duration.inMilliseconds.toDouble() / 1000.0);
   double get perSecond => _total.toDouble() / duration;
-  double get perItem => duration / _total.toDouble();
+  double get perItem => duration / _correct.toDouble();
 }
