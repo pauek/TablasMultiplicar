@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _answer = '';
   }
 
-  _check() {
+  _checkAnswer() {
     setState(() {
       if (int.parse(_answer) == _multiplication.result) {
         _session.incrementCorrect();
@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
               NumberButtons(
                 onTapNumber: _addNumber,
                 onClear: _clearNumber,
-                onCheck: _check,
+                onCheck: _checkAnswer,
               ),
             ],
           ),
@@ -336,18 +336,23 @@ class NumberButtons extends StatelessWidget {
               },
             ),
             _button(0, context),
-            FlatButton(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                child: Icon(
-                  Icons.check,
-                  size: 40,
-                  color: Colors.green,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FlatButton(
+                color: Colors.green,
+                shape: StadiumBorder(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.check,
+                    size: 48,
+                    color: Colors.white,
+                  ),
                 ),
+                onPressed: () {
+                  this.onCheck();
+                },
               ),
-              onPressed: () {
-                this.onCheck();
-              },
             ),
           ])
         ],
