@@ -46,6 +46,7 @@ class SessionState extends State<SessionContainer> {
   int get target => _session.target;
   int get correct => _session.correct;
   int get wrong => _session.wrong;
+  int get total => _session.total;
 
   double get itemsPerSecond => _session.perItem;
 

@@ -10,10 +10,7 @@ class MenuPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            MenuButton(1),
-            MenuButton(5),
-            MenuButton(10),
-            MenuButton(30),
+            for (var n in [1, 5, 10, 30, 50, 100]) MenuButton(n),
           ],
         ),
       ),
@@ -29,7 +26,8 @@ class MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredButton(
-      text: '$mults ${mults > 1 ? 'Multiplicacions' : 'Multiplicació'}',
+      text:
+          '$mults ${mults > 1 ? 'Multiplicacions' : 'Multiplicació'}',
       onPressed: () {
         SessionState session = SessionContainer.of(context);
         session.reset(mults);

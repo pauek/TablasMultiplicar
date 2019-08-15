@@ -30,12 +30,12 @@ class ResultsPage extends StatelessWidget {
                 },
               ),
               ColoredButton(
-                  text: 'Torna al menú',
-                  color: Colors.blue,
-                  onPressed: () {
-                    Navigator.of(context)
-                        .popAndPushNamed('/');
-                  }),
+                text: 'Torna al menú',
+                color: Colors.blue,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
             ],
           ),
         ),
@@ -43,4 +43,3 @@ class ResultsPage extends StatelessWidget {
     );
   }
 }
-

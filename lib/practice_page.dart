@@ -18,6 +18,7 @@ class PracticePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              ProgressBar(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -43,12 +44,35 @@ class PracticePage extends StatelessWidget {
                 onClear: session.clearNumber,
                 onCheck: () {
                   session.checkAnswer(ifComplete: () {
-                    Navigator.of(context).pushNamed('/results');
+                    Navigator.of(context).pushReplacementNamed('/results');
                   });
                 },
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProgressBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final SessionState state = SessionContainer.of(context);
+    final MediaQueryData data = MediaQuery.of(context);
+    final double width = (data.size.width / state.target.toDouble()) *
+        state.total.toDouble();
+    return Container(
+      height: 10,
+      width: data.size.width,
+      color: Color.fromARGB(255, 70, 70, 70),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Container(
+          height: 10,
+          width: width,
+          color: Colors.blue,
         ),
       ),
     );
