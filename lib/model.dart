@@ -22,7 +22,7 @@ class PracticeSession extends ChangeNotifier {
     _generate();
   }
 
-  bool get isComplete => _total >= _target;
+  bool get isComplete => _correct >= _target;
 
   _generate() {
     _list = [
@@ -48,7 +48,7 @@ class PracticeSession extends ChangeNotifier {
   }
 
   Multiplication next() {
-    if (_total >= _target) {
+    if (isComplete) {
       return null;
     }
     if (_list.isEmpty) {
