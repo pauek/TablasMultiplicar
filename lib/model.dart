@@ -6,18 +6,27 @@ class Multiplication {
 }
 
 class PracticeSession extends ChangeNotifier {
-  int _correct = 0, _wrong = 0;
+  int _target;
+  DateTime _start, _end;
+  Duration _duration;
+  int _correct, _wrong, _total;
+
   List<Multiplication> _list = [];
 
-  int get correct => _correct;
-  int get wrong => _wrong;
+  PracticeSession({ int multiplications = 30 }) {
+    _target = multiplications;
+    reset();
+  }
 
-  void incrementCorrect({int amount = 1}) => _correct += amount;
-  void incrementWrong({int amount = 1}) => _wrong += amount;
-
-  PracticeSession() {
+  void reset() {
+    _correct = 0;
+    _wrong = 0;
+    _total = 0;
+    _start = DateTime.now();
     _generate();
   }
+
+  bool get isComplete => _total >= _target;
 
   _generate() {
     _list = [
@@ -27,7 +36,24 @@ class PracticeSession extends ChangeNotifier {
     _list.shuffle();
   }
 
+  int get correct => _correct;
+  int get wrong => _wrong;
+  int get total => _total;
+  double get totalSeconds => _duration.inMilliseconds.toDouble() / 1000.0;
+
+  void incrementCorrect({int amount = 1}) {
+    _correct += amount;
+    _total += amount;
+  }
+  void incrementWrong({int amount = 1}) {
+    _wrong += amount;
+    _total += amount;
+  }
+
   Multiplication next() {
+    if (_total >= _target) {
+      return null;
+    }
     if (_list.isEmpty) {
       _generate();
     }
@@ -35,4 +61,13 @@ class PracticeSession extends ChangeNotifier {
     _list.removeAt(0);
     return m;
   }
+
+  void finish() {
+    _end = DateTime.now();
+    _duration = _end.difference(_start);
+  }
+
+  double get duration => (_duration.inMilliseconds.toDouble() / 1000.0);
+  double get perSecond => _total.toDouble() / duration;
+  double get perItem => duration / _total.toDouble();
 }
