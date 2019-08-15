@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
+import 'package:tablas_multiplicar/model.dart';
 import 'package:vector_math/vector_math_64.dart' as vmath;
+import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      builder: (context) => PracticeSession(),
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Multiplicacions',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: MyHomePage(title: 'Multiplicacions'),
     );
   }
@@ -26,74 +31,37 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class Multiplication {
-  final int a, b, result;
-  Multiplication(this.a, this.b) : result = a * b;
-}
-
 class _MyHomePageState extends State<MyHomePage> {
-  static math.Random _rng = new math.Random();
   Multiplication _multiplication;
-  int _good, _bad;
   String _answer;
-  List<Multiplication> _multiplication_list = [];
 
-  static int _rand(int a, int b) {
-    return _rng.nextInt(b - a + 1) + a;
-  }
-
-  _generateMultiplications() {
-    _multiplication_list = [
-      for (int a = 2; a <= 9; a++)
-        for (int b = 2; b <= 9; b++) Multiplication(a, b)
-    ];
-    _multiplication_list.shuffle();
-  }
-
-  _MyHomePageState() {
-    _good = 0;
-    _bad = 0;
-    _newMultiplication();
-  }
-
-  _newMultiplication() {
-    if (_multiplication_list.isEmpty) {
-      _generateMultiplications();
-    }
-    _multiplication = _multiplication_list[0];
-    _multiplication_list.removeAt(0);
-    _answer = "";
-  }
-
-  _nextMultiplication() {
-    setState(_newMultiplication);
-  }
-
-  _addNumber(n) {
-    setState(() {
-      if (_answer.length < 2) {
-        _answer += '$n';
-      }
-      print(_answer);
-    });
-  }
-
-  _clearNumber() {
-    setState(() {
-      _answer = '';
-    });
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    _multiplication = Provider.of<PracticeSession>(context).next();
+    _answer = '';
   }
 
   _check() {
     setState(() {
+      var session = Provider.of<PracticeSession>(context);
       if (int.parse(_answer) == _multiplication.result) {
-        _good++;
-        _nextMultiplication();
+        session.incrementCorrect();
+        _multiplication = session.next();
       } else {
-        _bad++;
-        _answer = '';
+        session.incrementWrong();
       }
+      _answer = '';
     });
+  }
+
+  _addNumber(n) {
+    if (_answer.length < 2) {
+      setState(() => _answer += '$n');
+    }
+  }
+
+  _clearNumber() {
+    setState(() => _answer = '');
   }
 
   @override
@@ -113,21 +81,26 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Score(
-                      score: _bad,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Consumer<PracticeSession>(
+                    builder: (context, session, child) => ScoreBox(
+                      score: session.wrong,
                       color: Colors.red,
                       icon: Icons.close,
                       offset: Offset(0, 0),
                     ),
-                    Score(
-                      score: _good,
+                  ),
+                  Consumer<PracticeSession>(
+                    builder: (context, session, child) => ScoreBox(
+                      score: session.correct,
                       color: Colors.green,
                       icon: Icons.check,
                       offset: Offset(80, 10),
                     ),
-                  ]),
+                  ),
+                ],
+              ),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
@@ -163,7 +136,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           decoration: BoxDecoration(
                             color: Color.fromARGB(30, 255, 255, 255),
                             border: Border.all(),
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5)),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -196,13 +170,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class Score extends StatefulWidget {
+class ScoreBox extends StatefulWidget {
   final int score;
   final Color color;
   final IconData icon;
   final Offset offset; // HACK TOTAL!
 
-  Score({
+  ScoreBox({
     @required this.score,
     @required this.color,
     @required this.icon,
@@ -210,10 +184,10 @@ class Score extends StatefulWidget {
   });
 
   @override
-  _ScoreState createState() => _ScoreState();
+  _ScoreBoxState createState() => _ScoreBoxState();
 }
 
-class _ScoreState extends State<Score>
+class _ScoreBoxState extends State<ScoreBox>
     with SingleTickerProviderStateMixin {
   int _score;
   AnimationController _controller;
@@ -246,7 +220,7 @@ class _ScoreState extends State<Score>
   }
 
   @override
-  void didUpdateWidget(Score oldWidget) {
+  void didUpdateWidget(ScoreBox oldWidget) {
     if (widget.score != _score) {
       _controller.reset();
       _controller.forward();
