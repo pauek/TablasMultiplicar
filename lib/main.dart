@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tablas_multiplicar/menu_page.dart';
 import 'package:tablas_multiplicar/model.dart';
 import 'package:tablas_multiplicar/results_page.dart';
 import 'package:tablas_multiplicar/session_page.dart';
@@ -9,7 +10,8 @@ void main() {
 }
 
 var routes = {
-  '/': (context) => PracticePage(),
+  '/': (context) => MenuPage(),
+  '/practice': (context) => PracticePage(),
   '/results': (context) => ResultsPage(),
 };
 
