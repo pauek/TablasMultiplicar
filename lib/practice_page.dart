@@ -62,7 +62,7 @@ class ProgressBar extends StatelessWidget {
     final SessionState state = StateContainer.of(context);
     final MediaQueryData data = MediaQuery.of(context);
     final double width = (data.size.width / state.target.toDouble()) *
-        state.total.toDouble();
+        state.correct.toDouble();
     return Container(
       height: 10,
       width: data.size.width,
