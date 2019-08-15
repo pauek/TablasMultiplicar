@@ -17,38 +17,35 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Multiplicacions',
-      home: MyHomePage(title: 'Multiplicacions'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  PracticeSession _session;
   Multiplication _multiplication;
   String _answer;
 
   didChangeDependencies() {
     super.didChangeDependencies();
-    _multiplication = Provider.of<PracticeSession>(context).next();
+    _session = Provider.of<PracticeSession>(context);
+    _multiplication = _session.next();
     _answer = '';
   }
 
   _check() {
     setState(() {
-      var session = Provider.of<PracticeSession>(context);
       if (int.parse(_answer) == _multiplication.result) {
-        session.incrementCorrect();
-        _multiplication = session.next();
+        _session.incrementCorrect();
+        _multiplication = _session.next();
       } else {
-        session.incrementWrong();
+        _session.incrementWrong();
       }
       _answer = '';
     });
@@ -66,8 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    const double digitsSize = 52;
-    const double symbolsSize = digitsSize / 1.33;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -102,59 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        'assets/${_multiplication.a}.png',
-                        width: digitsSize,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Image.asset(
-                          'assets/x.png',
-                          width: symbolsSize,
-                        ),
-                      ),
-                      Image.asset(
-                        'assets/${_multiplication.b}.png',
-                        width: digitsSize,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Image.asset(
-                          'assets/eq.png',
-                          width: symbolsSize,
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 120,
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(30, 255, 255, 255),
-                            border: Border.all(),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5)),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment:
-                                MainAxisAlignment.center,
-                            children: <Widget>[
-                              for (int i = 0; i < _answer.length; i++)
-                                Image.asset(
-                                  'assets/${_answer[i]}.png',
-                                  width: digitsSize,
-                                )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                child: new QuestionBox(
+                  multiplication: _multiplication,
+                  answer: _answer,
                 ),
               ),
               NumberButtons(
@@ -165,6 +110,77 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class QuestionBox extends StatelessWidget {
+  const QuestionBox({
+    Key key,
+    @required Multiplication multiplication,
+    @required String answer,
+  })  : _multiplication = multiplication,
+        _answer = answer,
+        super(key: key);
+
+  final Multiplication _multiplication;
+  final String _answer;
+
+  @override
+  Widget build(BuildContext context) {
+    const double digitsSize = 52;
+    const double symbolsSize = digitsSize / 1.33;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Image.asset(
+            'assets/${_multiplication.a}.png',
+            width: digitsSize,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Image.asset(
+              'assets/x.png',
+              width: symbolsSize,
+            ),
+          ),
+          Image.asset(
+            'assets/${_multiplication.b}.png',
+            width: digitsSize,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Image.asset(
+              'assets/eq.png',
+              width: symbolsSize,
+            ),
+          ),
+          Expanded(
+            child: Container(
+              height: 120,
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(30, 255, 255, 255),
+                border: Border.all(),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  for (int i = 0; i < _answer.length; i++)
+                    Image.asset(
+                      'assets/${_answer[i]}.png',
+                      width: digitsSize,
+                    )
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
