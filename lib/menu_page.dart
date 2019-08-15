@@ -5,16 +5,14 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: GridView.count(
         padding: EdgeInsets.symmetric(horizontal: 50, vertical: 150),
-        child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-          children: <Widget>[
-            for (var n in [5, 10, 30, 50, 100]) MenuButton(n),
-          ],
-        ),
+        crossAxisCount: 2,
+        crossAxisSpacing: 24,
+        mainAxisSpacing: 24,
+        children: <Widget>[
+          for (var n in [5, 10, 30, 50, 100, 200]) MenuButton(n),
+        ],
       ),
     );
   }
