@@ -22,10 +22,10 @@ class ResultsPage extends StatelessWidget {
                 ),
               ),
               ColoredButton(
-                text: 'Repeteix',
+                text: 'Una altra vegada',
                 color: Colors.green,
                 onPressed: () {
-                  session.reset();
+                  session.reset(session.target);
                   Navigator.of(context).popAndPushNamed('/practice');
                 },
               ),

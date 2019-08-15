@@ -7,15 +7,34 @@ class MenuPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ColoredButton(
-          text: 'Practice',
-          onPressed: () {
-            SessionState session = SessionContainer.of(context);
-            session.reset();
-            Navigator.of(context).pushNamed('/practice');
-          },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            MenuButton(1),
+            MenuButton(5),
+            MenuButton(10),
+            MenuButton(30),
+          ],
         ),
       ),
+    );
+  }
+}
+
+class MenuButton extends StatelessWidget {
+  final int mults;
+
+  MenuButton(this.mults);
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredButton(
+      text: '$mults ${mults > 1 ? 'Multiplicacions' : 'Multiplicació'}',
+      onPressed: () {
+        SessionState session = SessionContainer.of(context);
+        session.reset(mults);
+        Navigator.of(context).pushNamed('/practice');
+      },
     );
   }
 }

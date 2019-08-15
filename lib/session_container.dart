@@ -41,10 +41,9 @@ class SessionState extends State<SessionContainer> {
   initState() {
     super.initState();
     _session = widget.session;
-    _multiplication = _session.next();
-    _answer = '';
   }
 
+  int get target => _session.target;
   int get correct => _session.correct;
   int get wrong => _session.wrong;
 
@@ -79,9 +78,9 @@ class SessionState extends State<SessionContainer> {
     setState(() => _answer = '');
   }
 
-  reset() {
+  reset(int mults) {
     setState(() {
-      _session.reset();
+      _session.reset(mults);
       _multiplication = _session.next();
       _answer = '';
     });

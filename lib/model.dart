@@ -6,23 +6,19 @@ class Multiplication {
 }
 
 class PracticeSession extends ChangeNotifier {
-  int _target;
+  int _target = 0;
   DateTime _start, _end;
   Duration _duration;
   int _correct, _wrong, _total;
 
   List<Multiplication> _list = [];
 
-  PracticeSession({ int multiplications = 30 }) {
-    _target = multiplications;
-    reset();
-  }
-
-  void reset() {
+  void reset(int mults) {
     _correct = 0;
     _wrong = 0;
     _total = 0;
     _start = DateTime.now();
+    _target = mults;
     _generate();
   }
 
@@ -39,6 +35,7 @@ class PracticeSession extends ChangeNotifier {
   int get correct => _correct;
   int get wrong => _wrong;
   int get total => _total;
+  int get target => _target;
   double get totalSeconds => _duration.inMilliseconds.toDouble() / 1000.0;
 
   void incrementCorrect({int amount = 1}) {
