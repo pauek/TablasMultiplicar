@@ -54,7 +54,7 @@ class SessionState extends State<StateContainer> {
     if (total == 0) {
       return 0;
     }
-    return 100 * (correct.toDouble() ~/ total.toDouble());
+    return (100.0 * (correct.toDouble() / total.toDouble())).toInt();
   }
 
   String get answer => _answer;
