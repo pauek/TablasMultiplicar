@@ -3,52 +3,76 @@ import 'package:vector_math/vector_math_64.dart' as vmath;
 import 'package:tablas_multiplicar/session_container.dart';
 
 class PracticePage extends StatelessWidget {
+  Future<bool> _willPop(context) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: new Text('Segur que vols sortir?'),
+        content: new Text('Es perdran els resultats acumulats.'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('Continuar'),
+          ),
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: new Text('Sortir'),
+          ),
+        ],
+      ),
+    ) ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
     SessionState session = StateContainer.of(context);
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/fondo.jpg'),
-            fit: BoxFit.cover,
+    return WillPopScope(
+      onWillPop: () => _willPop(context),
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/fondo.jpg'),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ProgressBar(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  ScoreBox(
-                    score: session.wrong,
-                    color: Colors.red,
-                    icon: Icons.close,
-                    offset: Offset(0, 0),
-                  ),
-                  ScoreBox(
-                    score: session.correct,
-                    color: Colors.green,
-                    icon: Icons.check,
-                    offset: Offset(80, 10),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: new QuestionBox(),
-              ),
-              NumberButtons(
-                onTapNumber: session.addNumber,
-                onClear: session.clearNumber,
-                onCheck: () {
-                  session.checkAnswer(ifComplete: () {
-                    Navigator.of(context).pushReplacementNamed('/results');
-                  });
-                },
-              ),
-            ],
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ProgressBar(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    ScoreBox(
+                      score: session.wrong,
+                      color: Colors.red,
+                      icon: Icons.close,
+                      offset: Offset(0, 0),
+                    ),
+                    ScoreBox(
+                      score: session.correct,
+                      color: Colors.green,
+                      icon: Icons.check,
+                      offset: Offset(80, 10),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: new QuestionBox(),
+                ),
+                NumberButtons(
+                  onTapNumber: session.addNumber,
+                  onClear: session.clearNumber,
+                  onCheck: () {
+                    session.checkAnswer(ifComplete: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed('/results');
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
