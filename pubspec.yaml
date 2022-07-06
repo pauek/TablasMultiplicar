@@ -1,6 +1,5 @@
 name: tablas_multiplicar
 description: A new Flutter project.
-
 version: 1.0.0+1
 
 environment:
@@ -20,27 +19,4 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-  - assets/fondo.jpg
-  - assets/0.png
-  - assets/1.png
-  - assets/2.png
-  - assets/3.png
-  - assets/4.png
-  - assets/5.png
-  - assets/6.png
-  - assets/7.png
-  - assets/8.png
-  - assets/9.png
-  - assets/eq.png
-  - assets/x.png
-  # fonts:
-  #   - family: Chawp
-  #     fonts:
-  #       - asset: assets/Chawp-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  - assets/

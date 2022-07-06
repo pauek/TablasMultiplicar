@@ -5,22 +5,23 @@ import 'package:tablas_multiplicar/session_container.dart';
 class PracticePage extends StatelessWidget {
   Future<bool> _willPop(context) {
     return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: new Text('Segur que vols sortir?'),
-        content: new Text('Es perdran els resultats acumulats.'),
-        actions: <Widget>[
-          new FlatButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('Continuar'),
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Segur que vols sortir?'),
+            content: Text('Es perdran els resultats acumulats.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('Continuar'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('Sortir'),
+              ),
+            ],
           ),
-          new FlatButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: new Text('Sortir'),
-          ),
-        ],
-      ),
-    ) ?? false;
+        ) ??
+        false;
   }
 
   @override
@@ -59,15 +60,14 @@ class PracticePage extends StatelessWidget {
                   ],
                 ),
                 Expanded(
-                  child: new QuestionBox(),
+                  child: QuestionBox(),
                 ),
                 NumberButtons(
                   onTapNumber: session.addNumber,
                   onClear: session.clearNumber,
                   onCheck: () {
                     session.checkAnswer(ifComplete: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed('/results');
+                      Navigator.of(context).pushReplacementNamed('/results');
                     });
                   },
                 ),
@@ -85,8 +85,8 @@ class ProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final SessionState state = StateContainer.of(context);
     final MediaQueryData data = MediaQuery.of(context);
-    final double width = (data.size.width / state.target.toDouble()) *
-        state.correct.toDouble();
+    final double width =
+        (data.size.width / state.target.toDouble()) * state.correct.toDouble();
     return Container(
       height: 10,
       width: data.size.width,
@@ -109,8 +109,7 @@ class QuestionBox extends StatelessWidget {
     SessionState session = StateContainer.of(context);
 
     final MediaQueryData queryData = MediaQuery.of(context);
-    final double digitsSize =
-        (queryData.size.width > 400.0 ? 52 : 42);
+    final double digitsSize = (queryData.size.width > 400.0 ? 52 : 42);
     final double symbolsSize = digitsSize / 1.33;
     if (session.multiplication == null) {
       return Container();
@@ -198,18 +197,16 @@ class _ScoreBoxState extends State<ScoreBox>
   void initState() {
     _score = widget.score;
 
-    final Matrix4 doublesize =
-        Matrix4.diagonal3(vmath.Vector3(1.8, 1.8, 1.8));
-    final Matrix4 normalsize =
-        Matrix4.diagonal3(vmath.Vector3(1, 1, 1));
+    final Matrix4 doublesize = Matrix4.diagonal3(vmath.Vector3(1.8, 1.8, 1.8));
+    final Matrix4 normalsize = Matrix4.diagonal3(vmath.Vector3(1, 1, 1));
 
     _transform = doublesize;
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
-    _animation = _controller
-        .drive(Matrix4Tween(begin: doublesize, end: normalsize));
+    _animation =
+        _controller.drive(Matrix4Tween(begin: doublesize, end: normalsize));
     _controller.forward();
     _controller.addListener(() {
       setState(() {
@@ -268,12 +265,10 @@ class NumberButtons extends StatelessWidget {
   _button(n, context) {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: OutlineButton(
-        borderSide: BorderSide(
-          color: Color.fromARGB(100, 255, 255, 255),
-          width: 2,
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          shape: StadiumBorder(),
         ),
-        shape: StadiumBorder(),
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Text(

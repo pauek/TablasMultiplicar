@@ -27,8 +27,8 @@ class StateContainer extends StatefulWidget {
   SessionState createState() => SessionState();
 
   static SessionState of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(
-            _InheritedStateContainer) as _InheritedStateContainer)
+    return (context
+            .dependOnInheritedWidgetOfExactType<_InheritedStateContainer>())
         .session;
   }
 }
