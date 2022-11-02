@@ -25,7 +25,7 @@ class MenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text(
         '$mults',
         style: TextStyle(
@@ -33,7 +33,9 @@ class MenuButton extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      color: Color.fromARGB(255, 160, 180, 255),
+      style: TextButton.styleFrom(
+        backgroundColor: Color.fromARGB(255, 160, 180, 255),
+      ),
       onPressed: () {
         SessionState session = StateContainer.of(context);
         session.reset(mults);

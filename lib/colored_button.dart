@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class ColoredButton extends StatelessWidget {
@@ -17,9 +16,11 @@ class ColoredButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 16),
-      child: FlatButton(
-        shape: StadiumBorder(),
-        color: color,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          shape: StadiumBorder(),
+          backgroundColor: color,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Text(

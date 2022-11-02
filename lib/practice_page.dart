@@ -85,8 +85,7 @@ class ProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final SessionState state = StateContainer.of(context);
     final MediaQueryData data = MediaQuery.of(context);
-    final double width =
-        (data.size.width / state.target.toDouble()) * state.correct.toDouble();
+    final double width = (data.size.width / state.target.toDouble()) * state.correct.toDouble();
     return Container(
       height: 10,
       width: data.size.width,
@@ -186,8 +185,7 @@ class ScoreBox extends StatefulWidget {
   _ScoreBoxState createState() => _ScoreBoxState();
 }
 
-class _ScoreBoxState extends State<ScoreBox>
-    with SingleTickerProviderStateMixin {
+class _ScoreBoxState extends State<ScoreBox> with SingleTickerProviderStateMixin {
   int _score;
   AnimationController _controller;
   Animation _animation;
@@ -205,8 +203,7 @@ class _ScoreBoxState extends State<ScoreBox>
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
-    _animation =
-        _controller.drive(Matrix4Tween(begin: doublesize, end: normalsize));
+    _animation = _controller.drive(Matrix4Tween(begin: doublesize, end: normalsize));
     _controller.forward();
     _controller.addListener(() {
       setState(() {
@@ -287,8 +284,7 @@ class NumberButtons extends StatelessWidget {
   }
 
   _buttonRow(BuildContext context, int from, int to) {
-    return List<Widget>.generate(
-        to - from + 1, (i) => _button(i + from, context));
+    return List<Widget>.generate(to - from + 1, (i) => _button(i + from, context));
   }
 
   @override
@@ -301,7 +297,7 @@ class NumberButtons extends StatelessWidget {
           TableRow(children: _buttonRow(context, 4, 6)),
           TableRow(children: _buttonRow(context, 1, 3)),
           TableRow(children: [
-            FlatButton(
+            TextButton(
               child: Padding(
                 padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                 child: Icon(
@@ -317,9 +313,11 @@ class NumberButtons extends StatelessWidget {
             _button(0, context),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: FlatButton(
-                color: Colors.green,
-                shape: StadiumBorder(),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  shape: StadiumBorder(),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
